@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import QMainWindow, QApplication, QFrame, QHBoxLayout
 import os, sys
 
-class RainyBAG(QMainWindow):
+class RainyBG(QMainWindow):
     def __init__(self, db_path):
         super().__init__()
         self.db_path = db_path
@@ -9,7 +9,7 @@ class RainyBAG(QMainWindow):
         # self._setup_menu()
         # self.bind_signals()
         self._display_ui()
-        self.setStyleSheet(open(os.path.join("assets", "styles", "default.css")).read())
+        self.setStyleSheet(open(os.path.join("styles", "default.css")).read())
 
     def _setup_ui(self):
         self.window_frame = QFrame()
@@ -29,7 +29,7 @@ class RainyBAG(QMainWindow):
 def open_rainy_bag():
     app = QApplication(sys.argv)
     app.setStyle('Fusion')
-    form = RainyBAG(os.path.join(os.getcwd(), 'RainyDB'))  # We set the form to be our ExampleApp (design)
+    form = RainyBG(os.path.join(os.getcwd(), 'RainyDB'))  # We set the form to be our ExampleApp (design)
 
     form.show()  # Show the form
     sys.exit(app.exec_())  # and execute the app
