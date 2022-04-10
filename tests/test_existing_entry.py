@@ -1,6 +1,6 @@
 from PyQt5 import QtCore
 
-from tests.aux import _setup
+from tests.support_functions import _setup
 
 
 def test_existing_entry_no_file(qtbot):

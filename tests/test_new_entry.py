@@ -1,6 +1,6 @@
 import os
 
-from tests.aux import _setup
+from tests.support_functions import _setup
 from PyQt5 import QtCore
 
 

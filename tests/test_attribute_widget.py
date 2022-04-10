@@ -1,7 +1,7 @@
 from PyQt5 import QtCore
 
 from dependencies.attribute_widget import AttributeWidget
-from tests.aux import _setup
+from tests.support_functions import _setup
 
 
 def test_attribute_w_value(qtbot):
