@@ -1,0 +1,14 @@
+[
+    {
+        "name": "Wisdom",
+        "tooltipText": "This stat describes how wise the unit is",
+        "fullText": "",
+        "value": "10"
+    },
+    {
+        "name": "Strength",
+        "tooltipText": "This stat describes how strong the unit is",
+        "fullText": "",
+        "value": 10
+    }
+]
