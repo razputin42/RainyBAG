@@ -43,3 +43,13 @@ def test_add_entry_to_file(qtbot):
     bg.new_entry_widget.entry_frame.set_field("name", "Test")
     qtbot.mouseClick(bg.new_entry_widget.add_button, QtCore.Qt.LeftButton)
     assert os.path.exists("tests/json/test_attribute.json")
+
+def test_adding_new_area(qtbot):
+    bg = _setup(qtbot)
+    bg.tab_widget.setCurrentIndex(1)
+    bg.file_selector.input_line.setText("tests/json/attribute.json")
+    bg.file_selector.emit_update_file()
+    bg.new_entry_widget.template_selector.dropdown.setCurrentText("Area")
+    bg.new_entry_widget.entry_frame.set_field("name", "Test")
+    qtbot.mouseClick(bg.new_entry_widget.add_button, QtCore.Qt.LeftButton)
+    # assert os.path.exists("tests/json/test_attribute.json")

@@ -41,6 +41,8 @@ class ExistingEntryWidget(QFrame):
                 self.entries = dictionaries_in_file
                 self.filename = filename
                 self.entry_selector.update_items(dictionaries_in_file)
+                if self.entry_frame.is_empty():
+                    self.refresh_attributes()
         except FileNotFoundError:
             logging.debug(f"Could not locate file {filename}")
             self.signal_nexus.status_bar_signal.emit("File not found!", 2000)

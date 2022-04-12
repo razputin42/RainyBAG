@@ -1,10 +1,17 @@
 [
-  {
-    "name": "Castle",
-    "tooltipText": "",
-    "fullText": "",
-    "tags": [
-      "Castle"
-    ]
-  }
+    {
+        "name": "Castle",
+        "tooltipText": "",
+        "fullText": "",
+        "tags": [
+            "Castle"
+        ]
+    },
+    {
+        "name": "Fishing Village",
+        "Type": "",
+        "Tooltip text": "",
+        "Full text": "",
+        "Tags": ""
+    }
 ]

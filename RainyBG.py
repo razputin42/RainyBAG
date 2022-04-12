@@ -1,8 +1,9 @@
 import logging
 
 from PyQt5.QtGui import QIcon
-from PyQt5.QtWidgets import QMainWindow, QApplication, QFrame, QVBoxLayout, QTabWidget, QSizePolicy, QStatusBar
-from PyQt5.QtCore import pyqtSignal, QObject, QTimer, QPropertyAnimation
+from PyQt5.QtWidgets import QMainWindow, QApplication, QFrame, QVBoxLayout, QTabWidget, QSizePolicy, QMenuBar, QMenu, \
+    QAction
+from PyQt5.QtCore import pyqtSignal, QObject, QRect, QMetaObject, QSettings
 import os
 import sys
 from dependencies.existing_entry import ExistingEntryWidget
@@ -10,7 +11,6 @@ from dependencies.file_selector import FileSelector
 from dependencies.new_entry import NewEntryWidget
 from dependencies.status_bar import StatusBar
 from dependencies.tab_bar import TabBar
-from dependencies.template_selector import TemplateSelector
 
 
 class SignalNexus(QObject):
@@ -30,6 +30,7 @@ class RainyBG(QMainWindow):
         self._bind_signals()
         self._display_ui()
         self.setStyleSheet(open(os.path.join("styles", "default.css")).read())
+
 
     def _setup_ui(self):
         # central frame
@@ -65,6 +66,9 @@ class RainyBG(QMainWindow):
 
         self.tab_widget.addTab(self.existing_entry_widget, "Edit entries")
         self.tab_widget.addTab(self.new_entry_widget, "New entry")
+
+    def _setup_menu(self):
+        pass
 
 
 def setup_logger():

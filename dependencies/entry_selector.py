@@ -17,8 +17,13 @@ class EntrySelector(LightFrame):
         self.layout().addWidget(self.label)
         self.layout().addWidget(self.dropdown)
 
+    def set_current_index(self, index):
+        self.dropdown.setCurrentIndex(index)
+
     def update_items(self, dictionaries: list[dict]):
         self.entries = dictionaries
+        current_index = self.dropdown.currentIndex()
+        self.dropdown.blockSignals(True)
         self.dropdown.clear()
         items = []
         for dictionary in dictionaries:
@@ -26,7 +31,13 @@ class EntrySelector(LightFrame):
             if name is not None:
                 items.append(name)
         self.dropdown.addItems(items)
-        self.dropdown.setCurrentIndex(0)
+        if self.dropdown.itemText(0) == "":
+            self.dropdown.removeItem(0)
+        if current_index == -1 or current_index >= self.dropdown.count():
+            current_index = 0
+        self.dropdown.setCurrentIndex(current_index)
+        self.dropdown.blockSignals(False)
+        self.dropdown.currentIndexChanged.emit(current_index)
 
     def get_selected_entry(self):
         selected_entry = self.dropdown.currentText()
@@ -38,6 +49,6 @@ class EntrySelector(LightFrame):
 
     def get_entry(self, value, key="name"):
         for entry in self.entries:
-            if entry[key] == value:
+            if key in entry and entry[key] == value:
                 return entry
-        return None
+        raise ValueError(f"No entry with \"{key}\" equal to \"{value}\" found")

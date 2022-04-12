@@ -27,7 +27,7 @@ class FileSelector(QFrame):
         self.file_dialog.clicked.connect(self.file_select_dialog)
 
     def emit_update_file(self, file=None):
-        if file is None:
+        if file is None or file is False:
             file = self.input_line.text()
         logging.debug(f"Emitting update_file_signal with {file}")
         self.signal_nexus.update_file_signal.emit(file)

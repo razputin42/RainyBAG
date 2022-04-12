@@ -1,3 +1,4 @@
+import logging
 import os
 
 import ujson
@@ -36,6 +37,7 @@ class NewEntryWidget(QFrame):
         self._update_template()
 
     def refresh_file(self, filename):
+        logging.debug(f"Refreshing file: {filename}")
         self.filename = filename
 
     def _update_template(self):
@@ -62,4 +64,5 @@ class NewEntryWidget(QFrame):
         with(open(self.filename, "w")) as file:
             ujson.dump(entries, file, indent=4)
         self.signal_nexus.status_bar_signal.emit("Entry updated!", 2000)
+        self.signal_nexus.update_file_signal.emit(self.filename)
 

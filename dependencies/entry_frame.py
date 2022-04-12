@@ -16,6 +16,7 @@ class EntryFrame(QFrame):
             widget = item.widget()
             if widget is not None:
                 widget.deleteLater()
+        self.attribute_widgets = []
 
     def add_fields(self, dictionary):
         for key, value in dictionary.items():
@@ -44,3 +45,7 @@ class EntryFrame(QFrame):
             if _key == key:
                 attribute.set(value)
                 break
+
+    def is_empty(self):
+        return len(self.attribute_widgets) == 0
+

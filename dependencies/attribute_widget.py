@@ -11,7 +11,7 @@ class AttributeLineEdit(QLineEdit):
 
 
 class AttributeWidget(LightFrame):
-    def __init__(self, key, value):
+    def __init__(self, key, value=""):
         super().__init__()
         self.key = key
         self._setup_ui(key, value)

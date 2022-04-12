@@ -1,7 +1,7 @@
 [
     {
         "name": "Wisdom",
-        "tooltipText": "This stat describes how wise the unit is",
+        "tooltipText": "This stat describes how wise the unit is.",
         "fullText": "",
         "value": "10"
     },
@@ -10,5 +10,17 @@
         "tooltipText": "This stat describes how strong the unit is",
         "fullText": "",
         "value": 10
+    },
+    {
+        "name": "Charisma",
+        "tooltipText": "This is charisma, yo",
+        "fullText": "yo yo, charisma yo yo.",
+        "value": "-1"
+    },
+    {
+        "name": "Dicks",
+        "tooltipText": "",
+        "fullText": "",
+        "value": ""
     }
 ]

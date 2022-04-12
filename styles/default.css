@@ -74,10 +74,10 @@ QComboBox QAbstractItemView {
     font: 18pt Arial, Helvetica, sans-serif;
 }
 
-QMenuBar {
-    /*font: 18pt Arial, Helvetica, sans-serif;*/
+/*QMenuBar {
+    font: 18pt Arial, Helvetica, sans-serif;
     background-color: #34495e;
-}
+}*/
 
 QStatusBar {
     font: 18pt Arial, Helvetica, sans-serif;
