@@ -1,6 +1,6 @@
 from PyQt5.QtWidgets import QFrame, QSizePolicy, QVBoxLayout
 
-from dependencies.attribute_widget import AttributeWidget
+from dependencies.attribute_widget import attribute_factory
 
 
 class EntryFrame(QFrame):
@@ -20,7 +20,7 @@ class EntryFrame(QFrame):
 
     def add_fields(self, dictionary):
         for key, value in dictionary.items():
-            attribute_widget = AttributeWidget(key, value)
+            attribute_widget = attribute_factory(key, value)
             self.attribute_widgets.append(attribute_widget)
             self.layout().addWidget(attribute_widget)
         self.layout().addStretch(1)
@@ -39,7 +39,6 @@ class EntryFrame(QFrame):
                 return value
 
     def set_field(self, key, value):
-        attribute: AttributeWidget
         for attribute in self.attribute_widgets:
             _key, _value = attribute.get()
             if _key == key:
@@ -48,4 +47,3 @@ class EntryFrame(QFrame):
 
     def is_empty(self):
         return len(self.attribute_widgets) == 0
-

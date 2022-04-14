@@ -1,4 +1,7 @@
 import os
+import sys
+
+from PyQt5.QtWidgets import QApplication
 
 from RainyBG import RainyBG
 
@@ -12,3 +15,9 @@ def _setup(qtbot):
     )
     qtbot.addWidget(bg)
     return bg
+
+
+def _show_frame(widget):
+    app = QApplication(sys.argv)
+    widget.show()
+    app.exec_()
