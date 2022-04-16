@@ -51,4 +51,4 @@ class EntrySelector(LightFrame):
         for entry in self.entries:
             if key in entry and entry[key] == value:
                 return entry
-        raise ValueError(f"No entry with \"{key}\" equal to \"{value}\" found")
+        return {}

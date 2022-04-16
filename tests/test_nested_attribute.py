@@ -15,5 +15,16 @@ def test_nested_attribute_widget(setup, qtbot):
         key = target[0]
         value = target[1]
         assert attribute.key == key
-        assert attribute.value == value
+        assert attribute._value == value
 
+
+def test_get(setup, qtbot):
+    widget: NestedAttributeWidget = setup
+    key, value = widget.get()
+    assert {key: value} == {"main": {"sub1": "value", "sub2": "value"}}
+
+
+def test_nested_get(setup, qtbot):
+    widget = NestedAttributeWidget("main", {"sub": {"sub1": "value", "sub2": "value"}})
+    key, value = widget.get()
+    assert {key: value} == {"main": {"sub": {"sub1": "value", "sub2": "value"}}}

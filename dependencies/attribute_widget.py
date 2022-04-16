@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QFrame, QLineEdit, QLabel, QHBoxLayout, QVBoxLayout
+from PyQt5.QtWidgets import QFrame, QLineEdit, QLabel, QHBoxLayout, QVBoxLayout, QPushButton
 
 from dependencies.frames import LightFrame
 
@@ -15,12 +15,21 @@ class AttributeLineEdit(QLineEdit):
     pass
 
 
-class AttributeWidget(LightFrame):
+class BaseAttributeWidget(LightFrame):
     def __init__(self, key, value=""):
         super().__init__()
         self.key = key
+        self._value = value
         self._setup_ui(key, value)
 
+    def _setup_ui(self, key, value):
+        raise NotImplementedError
+
+    def get(self):
+        raise NotImplementedError
+
+
+class AttributeWidget(BaseAttributeWidget):
     def _setup_ui(self, key, value):
         self.label = AttributeLabel(key)
         self.label.setFixedWidth(200)
@@ -43,13 +52,8 @@ class AttributeWidget(LightFrame):
         self.input_line.setText(str(value))
 
 
-class NestedAttributeWidget(LightFrame):
-    def __init__(self, key, value):
-        super().__init__()
-        self.attributes = []
-        self.key = key
-        self._value = value
-        self._setup_ui(key, value)
+class NestedAttributeWidget(BaseAttributeWidget):
+    attributes = []
 
     def _setup_ui(self, key, value):
         self.label = AttributeLabel(key)
@@ -62,19 +66,53 @@ class NestedAttributeWidget(LightFrame):
             self.attributes.append(attribute_widget)
             self.layout().addWidget(attribute_widget)
 
-    @property
-    def value(self):
-        return self.input_line.text()
+    def get(self):
+        return_dict = {}
+        for attribute in self.attributes:
+            key, value = attribute.get()
+            return_dict[key] = value
+        return self.key, return_dict
+
+
+class ListAttributeWidget(BaseAttributeWidget):
+    attributes = []
+
+    def _setup_ui(self, key, value):
+        self.attribute_frame = LightFrame()
+        self.attribute_frame.setLayout(QVBoxLayout())
+        for item in value:
+            self.add_attribute(item)
+        label = AttributeLabel(key)
+        add_attribute_button = QPushButton("+")
+        add_attribute_button.clicked.connect(self.add_attribute)
+        self.setLayout(QVBoxLayout())
+        self.layout().setContentsMargins(10, 0, 0, 0)
+        self.layout().addWidget(label)
+        self.layout().addWidget(self.attribute_frame)
+        self.layout().addWidget(add_attribute_button)
+
+    def add_attribute(self, value=None):
+        if value is None or isinstance(value, list):
+            value = ""
+        new_attribute = attribute_factory(self.key, value)
+        self.attributes.append(new_attribute)
+        self.attribute_frame.layout().addWidget(new_attribute)
 
     def get(self):
-        return self.key, self.value
+        return_list = []
+        for attribute in self.attributes:
+            key, value = attribute.get()
+            return_list.append(value)
+        return self.key, return_list
 
     def set(self, value):
-        self.input_line.setText(str(value))
+        print(value)
 
 
 def attribute_factory(key, value):
     if isinstance(value, dict):
         return NestedAttributeWidget(key, value)
+    elif isinstance(value, list):
+        return ListAttributeWidget(key, value)
     else:
         return AttributeWidget(key, value)
