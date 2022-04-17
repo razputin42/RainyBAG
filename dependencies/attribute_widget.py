@@ -16,8 +16,9 @@ class AttributeLineEdit(QLineEdit):
 
 
 class BaseAttributeWidget(LightFrame):
-    def __init__(self, key, value=""):
+    def __init__(self, key, value="", hide_key=False):
         super().__init__()
+        self.hide_key = hide_key
         self.key = key
         self._value = value
         self._setup_ui(key, value)
@@ -31,12 +32,13 @@ class BaseAttributeWidget(LightFrame):
 
 class AttributeWidget(BaseAttributeWidget):
     def _setup_ui(self, key, value):
-        self.label = AttributeLabel(key)
-        self.label.setFixedWidth(200)
         self.input_line = AttributeLineEdit()
         self.input_line.setText(str(value))
         self.setLayout(QHBoxLayout())
-        self.layout().addWidget(self.label)
+        if not self.hide_key:
+            self.label = AttributeLabel(key)
+            self.label.setFixedWidth(200)
+            self.layout().addWidget(self.label)
         self.layout().addWidget(self.input_line)
         self.setContentsMargins(0, 0, 0, 0)
         # self.layout().setContentsMargins(0, 0, 0, 0)
@@ -94,7 +96,7 @@ class ListAttributeWidget(BaseAttributeWidget):
     def add_attribute(self, value=None):
         if value is None or isinstance(value, list):
             value = ""
-        new_attribute = attribute_factory(self.key, value)
+        new_attribute = attribute_factory(self.key, value, hide_key=True)
         self.attributes.append(new_attribute)
         self.attribute_frame.layout().addWidget(new_attribute)
 
@@ -109,10 +111,10 @@ class ListAttributeWidget(BaseAttributeWidget):
         print(value)
 
 
-def attribute_factory(key, value):
+def attribute_factory(key, value, hide_key=False):
     if isinstance(value, dict):
         return NestedAttributeWidget(key, value)
     elif isinstance(value, list):
         return ListAttributeWidget(key, value)
     else:
-        return AttributeWidget(key, value)
+        return AttributeWidget(key, value, hide_key)

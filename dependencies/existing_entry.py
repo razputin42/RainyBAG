@@ -1,4 +1,5 @@
 import logging
+import os
 
 import ujson
 from PyQt5.QtWidgets import QFrame, QPushButton, QVBoxLayout
@@ -11,6 +12,7 @@ class ExistingEntryWidget(QFrame):
     def __init__(self, signal_nexus):
         super().__init__()
         self.signal_nexus = signal_nexus
+        self.filename = ""
         self.entries = []
         self._setup_ui()
         self._display_ui()
@@ -55,6 +57,9 @@ class ExistingEntryWidget(QFrame):
         self.entry_frame.add_fields(entry)
 
     def update_existing_entry(self):
+        if self.filename == "" or not os.path.exists(self.filename):
+            self.signal_nexus.status_bar_signal.emit("Please select a file first!", 2000)
+            return
         entry = self.entry_frame.get_fields()
         for itt, _entry in enumerate(self.entries):
             if _entry["name"] == entry["name"]:
