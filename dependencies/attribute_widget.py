@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QFrame, QLineEdit, QLabel, QHBoxLayout, QVBoxLayout, QPushButton
+from PyQt5.QtWidgets import QFrame, QLineEdit, QLabel, QHBoxLayout, QVBoxLayout, QPushButton, QTextEdit
 
 from dependencies.frames import LightFrame
 
@@ -12,6 +12,10 @@ class AttributeLabel(QLabel):
 
 
 class AttributeLineEdit(QLineEdit):
+    pass
+
+
+class AttributeTextEdit(QTextEdit):
     pass
 
 
@@ -52,6 +56,31 @@ class AttributeWidget(BaseAttributeWidget):
 
     def set(self, value):
         self.input_line.setText(str(value))
+
+
+class TextAttributeWidget(BaseAttributeWidget):
+    def _setup_ui(self, key, value):
+        self.text_input = AttributeTextEdit()
+        self.text_input.setText(str(value))
+        self.setLayout(QHBoxLayout())
+        if not self.hide_key:
+            self.label = AttributeLabel(key)
+            self.label.setFixedWidth(200)
+            self.layout().addWidget(self.label)
+        self.layout().addWidget(self.text_input)
+        self.setContentsMargins(0, 0, 0, 0)
+        self.text_input.setMaximumHeight(100)
+        # self.layout().setContentsMargins(0, 0, 0, 0)
+
+    @property
+    def value(self):
+        return self.text_input.text()
+
+    def get(self):
+        return self.key, self.value
+
+    def set(self, value):
+        self.text_input.setText(str(value))
 
 
 class NestedAttributeWidget(BaseAttributeWidget):
@@ -116,5 +145,7 @@ def attribute_factory(key, value, hide_key=False):
         return NestedAttributeWidget(key, value)
     elif isinstance(value, list):
         return ListAttributeWidget(key, value)
+    elif value == "text":
+        return TextAttributeWidget(key, "", hide_key)
     else:
         return AttributeWidget(key, value, hide_key)
